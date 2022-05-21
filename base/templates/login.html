@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+     <div class="link_registry">
+    <a href="{% url 'registry_page' %}">Регистрация</a>
+    <a href="{% url 'start_page' %}">Главная страница</a>
+
+    </div>
+
+<div class="container_login">
+        <div class="layout__box">
+
+          <div class="layout__boxHeader">
+            <div class="layout__boxTitle">
+              <h3>Login</h3>
+            </div>
+          </div>
+
+          <div class="layout__body">
+            <h2 class="auth__tagline">Find your new partner</h2>
+
+            <form class="form" action="" method="POST">{% csrf_token %}
+              <div class="form__group form__group">
+                <label for="room_name">Email</label>
+                <input id="username" name="email" type="text" placeholder="e.g. username" />
+              </div>
+              <div class="form__group">
+                <label for="password">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                />
+              </div>
+
+              <button class="btn btn--main" type="submit" value="Login">
+                Login
+              </button>
+            </form>
+
+            <div class="auth__action">
+              <p>Haven't signed up yet?</p>
+              <a href="{% url 'registry_page' %}" class="btn btn--link">Регистрация</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock %}

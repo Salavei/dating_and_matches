@@ -1,0 +1,15 @@
+<div class="profile_navbar">
+    <div class="container_nav">
+        {% if request.user.is_authenticated %}
+			<div class="logo">
+                    <a style="background-image: url({{ request.user.avatar.url }}); background-repeat: no-repeat;" href="{% url 'user_profile' %}">{{ request.user.username }}</a>
+			</div>
+        {% endif %}
+			<div class="nav">
+				<nav>
+					<a href="{% url 'logout_page' %}">Выход</a>
+				</nav>
+			</div>
+		</div>
+		</div>
+</div>
