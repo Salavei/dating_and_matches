@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <div class="link_registry">
+        <a href="{% url 'start_page' %}">Главная страница</a>
+
+    </div>
+
+    <div class="form_update">
+        <div class="layout__box">
+            <div class="layout__boxHeader">
+                <div class="layout__boxTitle">
+                    <h3>Ваш профиль</h3>
+                </div>
+            </div>
+            <div class="layout__body">
+                <img src="{{ request.user.avatar.url }}" style="width: 220px;
+    height: 220px;
+    padding: 18px 150px 49px;"/>
+
+                <form class="form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                     {% for field in form %}
+                        <div class="form__group form__group">
+                            <label for="room_name">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

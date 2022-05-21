@@ -12,7 +12,7 @@ def start_page(request):
     if request.user.is_authenticated:
         return redirect('home_page')
     context = {}
-    return render(request, 'start_page.html', context)
+    return render(request, 'base/start_page.html', context)
 
 
 @login_required(login_url='login_page')
@@ -38,7 +38,7 @@ def login_page(request):
         else:
             messages.error(request, 'Пользователья не существует или невверный пароль')
     context = {}
-    return render(request, 'login.html', context)
+    return render(request, 'base/login.html', context)
 
 
 def register_page(request):
@@ -47,29 +47,24 @@ def register_page(request):
     form = MyUserCreationForm()
     ph = Photo.objects.all()
     context = {'form': form, 'ph': ph}
-    print(request.POST)
     if request.method == 'POST':
         form = MyUserCreationForm(request.POST)
-        # if form.is_valid():
-            # if send_email(email, send_type='app'):
-            #     # Регистрационное письмо успешно отправлено
-            #     print('Введите код активации')
-            # else:
-            # user = form.save(commit=False)
-            # user.likes = match_create_user(request.POST)
-            # user.save()
-            # login(request, user)
-            # return redirect('home_page')
-        # else:
-        #     messages.error(request, 'Произошла ошибка при регистрации')
-    return render(request, 'registry.html', context)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.likes = match_create_user(request.POST)
+            user.save()
+            login(request, user)
+            return redirect('home_page')
+        else:
+            messages.error(request, 'Произошла ошибка при регистрации')
+    return render(request, 'base/registry.html', context)
 
 
 @login_required(login_url='login_page')
 def match_page(request):
     obj = User.objects.get(id=request.user.id)
     tmp = show_match_people(user=obj)
-    return render(request, 'profile.html', {'people': tmp})
+    return render(request, 'base/profile.html', {'people': tmp})
 
 
 @login_required(login_url='login_page')
@@ -80,20 +75,20 @@ def chat_page(request, pk):
     queryset2 = Message.objects.filter(from_id=to_id, to_id=from_id)
     messages_chat = queryset1.union(queryset2)
     if request.method == 'POST':
-        Message.objects.create(from_id=from_id, to_id=to_id, message=request.POST.get('sms'))
-    context = {"messages_chat": messages_chat}
-    return render(request, 'chat.html', context)
+        if request.POST.get('sms'):
+            Message.objects.create(from_id=from_id, to_id=to_id, message=request.POST.get('sms'))
+    context = {"messages_chat": messages_chat, 'to_id': to_id}
+    return render(request, 'base/chat.html', context)
 
 
 @login_required(login_url='login')
 def user_profile(request):
     user = request.user
     form = UserForm(instance=user)
-
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('user_profile', pk=user.id)
+            return redirect('/match/')
     context = {'form': form}
-    return render(request, 'user_profile.html', context)
+    return render(request, 'base/user_profile.html', context)

@@ -1,15 +1,29 @@
+ {% if request.user.is_authenticated %}
 <div class="profile_navbar">
     <div class="container_nav">
-        {% if request.user.is_authenticated %}
-			<div class="logo">
-                    <a style="background-image: url({{ request.user.avatar.url }}); background-repeat: no-repeat;" href="{% url 'user_profile' %}">{{ request.user.username }}</a>
-			</div>
-        {% endif %}
-			<div class="nav">
-				<nav>
-					<a href="{% url 'logout_page' %}">Выход</a>
-				</nav>
-			</div>
-		</div>
-		</div>
+
+            <div class="logo">
+                <a class="photo" style="background-image: url({{ request.user.avatar.url }});"
+                   href="{% url 'user_profile' %}"></a>
+            </div>
+
+
+        <span>Dating and Matches</span>
+        <div class="nav">
+            <nav>
+                <a class="logout" href="{% url 'logout_page' %}">Выход</a>
+            </nav>
+        </div>
+
+
+    </div>
 </div>
+</div>
+{% else %}
+ <div class="profile_navbar">
+    <div class="container_nav">
+        <span>Dating and Matches</span>
+    </div>
+</div>
+</div>
+ {% endif %}
