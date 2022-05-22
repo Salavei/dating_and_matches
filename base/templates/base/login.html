@@ -13,12 +13,12 @@
 
           <div class="layout__boxHeader">
             <div class="layout__boxTitle">
-              <h3>Login</h3>
+              <h3>Вход</h3>
             </div>
           </div>
 
           <div class="layout__body">
-            <h2 class="auth__tagline">Find your new partner</h2>
+            <h2 class="auth__tagline">Ищите себе новые знакомства</h2>
 
             <form class="form" action="" method="POST">{% csrf_token %}
               <div class="form__group form__group">
@@ -36,12 +36,12 @@
               </div>
 
               <button class="btn btn--main" type="submit" value="Login">
-                Login
+                Вход
               </button>
             </form>
 
             <div class="auth__action">
-              <p>Haven't signed up yet?</p>
+              <p>Еще не зарегистрировались?</p>
               <a href="{% url 'registry_page' %}" class="btn btn--link">Регистрация</a>
             </div>
           </div>

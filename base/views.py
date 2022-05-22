@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import UserForm
 from django.contrib.auth.decorators import login_required
+from .utils.service import send_register
 
 
 def start_page(request):
@@ -25,12 +26,13 @@ def login_page(request):
     if request.user.is_authenticated:
         return redirect('home_page')
     if request.method == 'POST':
-        email = request.POST.get('email').lower()
+        email = request.POST.get('email')
         password = request.POST.get('password')
         try:
             user = User.objects.get(email=email)
         except:
             messages.error(request, 'Пользователя не существует')
+            return redirect('home_page')
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
@@ -48,15 +50,16 @@ def register_page(request):
     ph = Photo.objects.all()
     context = {'form': form, 'ph': ph}
     if request.method == 'POST':
-        form = MyUserCreationForm(request.POST)
+        form = MyUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
             user.likes = match_create_user(request.POST)
             user.save()
+            send_register(email=request.POST.get('email'), password=request.POST.get('password1'))
             login(request, user)
             return redirect('home_page')
         else:
-            messages.error(request, 'Произошла ошибка при регистрации')
+            messages.error(request, 'Произошла ошибка при регистрации!')
     return render(request, 'base/registry.html', context)
 
 
@@ -68,12 +71,12 @@ def match_page(request):
 
 
 @login_required(login_url='login_page')
-def chat_page(request, pk):
+def chat_page(request, hash):
     from_id = User.objects.get(pk=request.user.id)
-    to_id = User.objects.get(pk=pk)
+    to_id = User.objects.get(hash=hash)
     queryset1 = Message.objects.filter(from_id=from_id, to_id=to_id)
     queryset2 = Message.objects.filter(from_id=to_id, to_id=from_id)
-    messages_chat = queryset1.union(queryset2)
+    messages_chat = queryset1.union(queryset2).order_by('received_at')
     if request.method == 'POST':
         if request.POST.get('sms'):
             Message.objects.create(from_id=from_id, to_id=to_id, message=request.POST.get('sms'))

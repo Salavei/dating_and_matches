@@ -1,11 +1,12 @@
-from base.models import User
+from base.models import User, Photo
 
 
 def match_create_user(request):
+    count_photo = Photo.objects.all().count()
     tmp = 0
-    B = [5] * 7
-    for i in range(1, 7 + 1):
-        tmp += (B[i - 1] - int(request.get(f'contact{i}'))) ** 2
+    data_for_evaluation = [5] * count_photo
+    for i in range(1, count_photo + 1):
+        tmp += (data_for_evaluation[i - 1] - int(request.get(f'contact{i}'))) ** 2
     return tmp
 
 

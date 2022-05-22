@@ -193,7 +193,10 @@ body {
     font-size: 17px;
 }
 
+
 .title_start_page {
+    cursor: default;
+    background-size: 100px;
     text-align: center;
     font-size: 20px;
     color: #ffffff;
@@ -219,11 +222,10 @@ body {
 }
 
 .inner {
-
     display: inline-block;
-    width: calc((100% - 450px) / 2);
+    width: 100% -450px / 2;
     height: 175px;
-    margin: 10px 12px 19px 0;
+    margin: 50px 12px 19px 0;
     text-align: center;
 }
 
@@ -247,8 +249,8 @@ img {
 /*}*/
 
 
-.form__group a{
-display: none;
+.form__group a {
+    display: none;
 }
 
 .people {
@@ -257,7 +259,7 @@ display: none;
     box-shadow: -13px 12px 13px 4px rgb(34 60 80 / 20%);
     border-radius: 12px;
     display: inline-block;
-    width: calc((100% - 1345px) / 2);
+    width: 100% - 1345px / 2;
     height: 180px;
     padding: 5px;
     margin: 4px -12px 31px 36px;
@@ -283,6 +285,8 @@ display: none;
 
 
 .message_chat {
+    z-index: -2;
+    font-family: "Avenir Next", sans-serif;
     color: #ffffff;
     margin: 41px;
     padding: 15px 13px;
@@ -301,7 +305,6 @@ display: none;
     display: inline;
     font-size: 13px;
     padding: 14px;
-    background-color: rgba(50, 194, 225, 0.42);
     border-radius: 45px;
     left: 30px;
     position: relative;
@@ -315,6 +318,7 @@ display: none;
 
 
 .form_class {
+    z-index: -1;
     position: fixed;
     left: 0px;
     bottom: 0px;
@@ -343,21 +347,34 @@ display: none;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#207cca', endColorstr='#9f58a3', GradientType=1); /* IE6-9 */
 }
 
+.form__group img {
+    width: 170px;
+    height: 79px;
+}
+
 .container_nav span {
+    cursor: default;
+    color: #4d4d4d;
+    text-shadow: #cad5e2 1px 1px 0, #cad5e2 2px 2px 0, #cad5e2 3px 3px 0, #cad5e2 4px 4px 0, #cad5e2 5px 5px 0;
     position: relative;
     font-family: "Avenir Next", sans-serif;
     font-weight: 900;
-    left: 384px;
-    font-size: 54px;
+    top: 11px;
+    left: 244px;
+    font-size: 40px;
     text-transform: uppercase;
     font-style: italic;
     letter-spacing: 0.05em;
     display: inline-block;
 }
 
-.title_start_page h1{
-    color: white;
-     position: relative;
+.title_start_page h1 {
+    -webkit-text-stroke: 0.5px #000000;
+    text-shadow: #cad5e2 1px 1px 0, #cad5e2 2px 2px 0,
+    #cad5e2 3px 3px 0, #cad5e2 4px 4px 0,
+    #cad5e2 5px 5px 0;
+    color: #c7458b;
+    position: relative;
     font-family: "Avenir Next", sans-serif;
     font-size: 27px;
     text-transform: uppercase;
@@ -365,23 +382,27 @@ display: none;
     letter-spacing: 0.05em;
     display: inline-block;
 }
+
 .title_proflie p {
-    color: white;
-     position: relative;
+    -webkit-text-stroke: 0.5px #000000;
+    text-shadow: #cad5e2 1px 1px 0, #cad5e2 2px 2px 0,
+    #cad5e2 3px 3px 0, #cad5e2 4px 4px 0,
+    #cad5e2 5px 5px 0;
+    color: #c7458b;
+    position: relative;
     font-family: "Avenir Next", sans-serif;
+    font-size: 27px;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    display: inline-block;
     font-weight: 900;
     /* left: 384px; */
-    font-size: 27px;
-    text-transform: uppercase;
-    font-style: italic;
-    letter-spacing: 0.05em;
-    display: inline-block;
-}
 
+}
 
 
 .form_class input {
-
 
 
     border: none;
@@ -437,8 +458,6 @@ display: none;
     border: none;
     background-color: #f3f3f3;
 }
-
-
 
 
 .form .form__group textarea {
@@ -497,6 +516,7 @@ display: none;
 
 
 .form button[type=submit] {
+    cursor: pointer;
     display: block;
     margin: 20px auto 0;
     width: 150px;
@@ -516,8 +536,18 @@ display: none;
 
 
 .messages {
+    font-family: "Avenir Next", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    font-style: italic;
+    position: absolute;
+    top: 108px;
+    left: 41px;
+    display: inline-block;
     list-style-type: none;
     text-align: center;
+    color: red;
+
 }
 
 
@@ -540,10 +570,12 @@ display: none;
 }
 
 .profile_navbar {
+    height: 10%;
     position: fixed;
     width: 100%;
     margin: -1px 0;
 }
+
 
 .block-left {
     left: 0;
@@ -559,6 +591,10 @@ display: none;
     width: 430px;
     height: 410px;
 }
+.about_match_user{
+    font-family: "Avenir Next", sans-serif;
+}
+
 
 .about_match_user .name {
     text-align: left;
@@ -573,4 +609,58 @@ display: none;
 .about_match_user .bio {
     text-align: left;
     padding-left: 47px;
+}
+
+
+
+
+
+
+
+.rating-area {
+	overflow: hidden;
+	width: 214px;
+	margin: 0 auto;
+}
+.rating-area:not(:checked) > input {
+	display: none;
+}
+.rating-area:not(:checked) > label {
+	float: right;
+	width: 42px;
+	padding: 0;
+	cursor: pointer;
+	font-size: 19px;
+	line-height: 45px;
+	color: #e11fe7;
+	text-shadow: 1px 1px #e564bf;
+}
+.rating-area:not(:checked) > label:before {
+	content: '♥';
+
+}
+.rating-area > input:checked ~ label {
+	color: red;
+	text-shadow: 1px 1px #c60;
+}
+.rating-area:not(:checked) > label:hover,
+.rating-area:not(:checked) > label:hover ~ label {
+	color: red;
+}
+.rating-area > input:checked + label:hover,
+.rating-area > input:checked + label:hover ~ label,
+.rating-area > input:checked ~ label:hover,
+.rating-area > input:checked ~ label:hover ~ label,
+.rating-area > label:hover ~ input:checked ~ label {
+	color: red;
+	text-shadow: 1px 1px goldenrod;
+}
+.rate-area > label:active {
+	position: relative;
+}
+
+
+hr {
+    border: 0.5px solid #000000;
+  border-radius: 5px;
 }

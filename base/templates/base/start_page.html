@@ -1,14 +1,18 @@
 {% extends 'main.html' %}
 
 {% block content %}
+
      <div class="link_registry">
     <a href="{% url 'login_page' %}">Войти</a>
     <a href="{% url 'registry_page' %}">Регистрация</a>
 
     </div>
-    <div class="title_start_page">
+    <div style="background-image: url('../../../static/pexels-photo-11116066.jpeg');" class="title_start_page">
 <h1>Добро пожаловать на сайт</h1>
-<h1>Здесь вы сможете найти людей с одинаковым вкусом по фотографиям</h1></div>
+<h1>Здесь вы сможете найти людей с одинаковым вкусом по фотографиям</h1>
+
+    </div>
+
 
 
 {% endblock %}

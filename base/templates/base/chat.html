@@ -1,40 +1,49 @@
 {% extends 'main.html' %}
 
 {% block content %}
-       <div class="block-left">
-    {% for message in messages_chat %}
-        <div class="message_chat">
-            <span class="thread__date">{{ message.received_at|time }}</span>
-            <div class="sender_photo">
-                <img src="{{ message.from_id.avatar.url }}">
+    <div class="block-left">
+        {% for message in messages_chat %}
+            <div class="message_chat">
+                <span class="thread__date">{{ message.received_at|time }}</span>
+                <div class="sender_photo">
+                    <img src="{{ message.from_id.avatar.url }}">
+                </div>
+                <div class="text"
+                     style="{% if message.to_id != request.user %} background-color: rgba(50, 194, 225, 0.42);{% elif  message.to_id == request.user %} background-color: rgba(255, 133, 196, 0.42);{% endif %}">
+                    <span>{{ message.message }}</span></div>
             </div>
-            <div class="text"><span>{{ message.message }} </span></div>
-        </div>
-    {% endfor %}
-</div>
-
-    <div class="block-right">
-
-    <div class="about_match_user">
-        <img src="{{ to_id.avatar.url }}" alt="">
-        <p class="name"><strong>{{ to_id.username }}</strong>  {{ to_id.birthday }}</p>
-        <hr>
-        <p class="gender">{{ to_id.gender }}</p>
-        <hr>
-        <p class="bio">{{ to_id.bio }}</p>
+        {% endfor %}
     </div>
-</div>
+
+    <div class="block-right" style="background-color: hsl(336deg 96% 92%);">
+
+        <div class="about_match_user">
+            <img src="{{ to_id.avatar.url }}" alt="">
+            <p class="name"><strong>{{ to_id.username }}</strong> {{ to_id.birthday }}</p>
+            <hr>
+            <p class="gender">{{ to_id.gender }}</p>
+            <hr>
+            {% if to_id.bio != None %}
+            <p class="bio">{{ to_id.bio }}</p>
+            {% endif %}
+        </div>
+    </div>
 
 
 
 
     <footer>
-    <div style="margin-top: 172px;"></div>
-    <div class="form_class">
-        <form method="post">{% csrf_token %}
-            <input type="text" name="sms" placeholder="Введите сообщение">
-            <button type="submit">Отправить</button>
-        </form>
-    </div>
-   </footer>
+        <div style="margin-top: 172px;"></div>
+        <div class="form_class">
+            <form method="post">{% csrf_token %}
+                <input type="text" name="sms" placeholder="Введите сообщение">
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </footer>
+    <script>
+        window.onload = function () {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
 {% endblock %}

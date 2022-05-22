@@ -4,11 +4,12 @@
     <div class="title_proflie"><p> Люди с похожими вкусами</p>
     </div>
 
+
     {% for user in people %}
         <div class="people"
              style="background-image: url({{ user.avatar.url }});background-size: 100%;background-repeat: no-repeat;">
             <h3>{{ user.username }} </h3>
-            <a href="{% url 'chat_page' pk=user.id %}"> Перейти к диалогу</a>
+            <a href="{% url 'chat_page' hash=user.hash %}"> Перейти к диалогу</a>
         </div>
     {% endfor %}
 

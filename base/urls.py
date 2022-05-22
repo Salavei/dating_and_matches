@@ -7,6 +7,6 @@ urlpatterns = [
     path('logout/', logout_page, name='logout_page'),
     path('match/', match_page, name='home_page'),
     path('login/', login_page, name='login_page'),
-    path('chat/<str:pk>/', chat_page, name='chat_page'),
+    path('chat/<str:hash>/', chat_page, name='chat_page'),
     path('profile/', user_profile, name='user_profile'),
 ]
