@@ -1,5 +1,3 @@
-# clothing_store
-
 # Dating and Matches
 ###### My analog of the website for Dating And Matches
 
