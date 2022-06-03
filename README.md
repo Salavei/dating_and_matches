@@ -36,6 +36,9 @@ DJANGO + CELERY + CHANNELS + DOCKER
   `docker exec -it dm python ./manage.py createsuperuser`
 
 
+###### ФОТОГРАФИИ:
+
+
 <img width="1678" alt="Снимок экрана 2022-05-22 в 14 39 48" src="https://user-images.githubusercontent.com/15955132/169696618-04e39728-5147-4251-8ee5-4f420cde069a.png">
 <img width="1678" alt="Снимок экрана 2022-05-22 в 14 40 13" src="https://user-images.githubusercontent.com/15955132/169696646-bb63a015-177b-4f99-a3d5-5e7934251f01.png">
 <img width="1678" alt="Снимок экрана 2022-05-22 в 14 40 23" src="https://user-images.githubusercontent.com/15955132/169696649-90f9d4e3-89d2-4e11-85a2-6d7cc747a4e2.png">
