@@ -4,6 +4,14 @@ from django.contrib.sessions.models import Session
 import hashlib
 
 
+class Photo(models.Model):
+    name = models.CharField(max_length=200, null=False)
+    photo = models.ImageField(null=False)
+
+    def __str__(self):
+        return self.name
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=20, verbose_name='имя', default='')
     birthday = models.IntegerField(verbose_name='ваш возраст', null=True)
@@ -14,22 +22,23 @@ class User(AbstractUser):
     bio = models.TextField(null=True)
     likes = models.IntegerField(null=True)
     hash = models.CharField(max_length=64, unique=True, default=None, null=True)
+    ph = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     def save(self, *args, **kwargs):
         if self.hash is None:
             self.hash = hashlib.sha256(self.email.encode('utf-8')).hexdigest()
-            print(self.hash)
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username
 
 
-class Photo(models.Model):
-    name = models.CharField(max_length=200, null=False)
-    photo = models.ImageField(null=False)
+class ChatName(models.Model):
+    name = models.CharField(max_length=150)
+    user_first = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_first')
+    user_second = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_second')
 
     def __str__(self):
         return self.name

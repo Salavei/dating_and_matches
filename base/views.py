@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import User, Photo, Message
+from .models import User, Photo, Message, ChatName
 from base.utils.business_logic import match_create_user, show_match_people
 from .forms import MyUserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -74,6 +74,9 @@ def match_page(request):
 def chat_page(request, hash):
     from_id = User.objects.get(pk=request.user.id)
     to_id = User.objects.get(hash=hash)
+    if not (ChatName.objects.filter(user_first=to_id, user_second=from_id) or ChatName.objects.filter(
+            user_first=from_id, user_second=to_id)):
+        ChatName.objects.create(name=from_id.email+to_id.email, user_first=from_id, user_second=to_id)
     queryset1 = Message.objects.filter(from_id=from_id, to_id=to_id)
     queryset2 = Message.objects.filter(from_id=to_id, to_id=from_id)
     messages_chat = queryset1.union(queryset2).order_by('received_at')

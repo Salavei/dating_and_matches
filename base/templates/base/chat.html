@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <div class="block-left">
+    <div id="messages" class="block-left">
         {% for message in messages_chat %}
             <div class="message_chat">
                 <span class="thread__date">{{ message.received_at|time }}</span>
@@ -14,6 +14,8 @@
             </div>
         {% endfor %}
     </div>
+    </div>
+
 
     <div class="block-right" style="background-color: hsl(336deg 96% 92%);">
 
@@ -24,7 +26,7 @@
             <p class="gender">{{ to_id.gender }}</p>
             <hr>
             {% if to_id.bio != None %}
-            <p class="bio">{{ to_id.bio }}</p>
+                <p class="bio">{{ to_id.bio }}</p>
             {% endif %}
         </div>
     </div>
@@ -35,12 +37,69 @@
     <footer>
         <div style="margin-top: 172px;"></div>
         <div class="form_class">
-            <form method="post">{% csrf_token %}
-                <input type="text" name="sms" placeholder="Введите сообщение">
+            <form id="form">{% csrf_token %}
+                <input type="text" name="message" placeholder="Введите сообщение">
                 <button type="submit">Отправить</button>
             </form>
         </div>
     </footer>
+    {{ request.user.username|json_script:"user_name" }}
+    <script type="text/javascript">
+        let url = `ws://${window.location.host}/ws/socket-server${window.location.pathname}`
+
+        const chatSocket = new WebSocket(url)
+
+        chatSocket.onmessage = function (e) {
+            let data = JSON.parse(e.data)
+            if (data.type === 'chat') {
+                let messages = document.getElementById('messages')
+
+                const user_name = JSON.parse(document.getElementById('user_name').textContent);
+
+                if (data.user == user_name) {
+                    messages.insertAdjacentHTML('beforeend',
+
+                        `<div class="message_chat">
+                          <span class="thread__date">${data.time_now} p.m.</span>
+                         <div class="sender_photo">
+                           <img src="${data.avatar}">
+                         </div>
+                       <div class="text"
+                     style="background-color: rgba(50, 194, 225, 0.42);">
+                   <span>${data.message}</span>
+                   </div>
+                 </div>`
+                    )
+                } else {
+                    messages.insertAdjacentHTML('beforeend',
+
+                        `<div class="message_chat">
+                          <span class="thread__date">${data.time_now} p.m.</span>
+                         <div class="sender_photo">
+                           <img src="${data.avatar}">
+                         </div>
+                       <div class="text"
+                     style="background-color: rgba(255, 133, 196, 0.42);">
+                   <span>${data.message}</span>
+                   </div>
+                 </div>`
+                    )
+                }
+            }
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        let form = document.getElementById('form')
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            let message = e.target.message.value
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'users': window.location.pathname,
+            }))
+            form.reset()
+        })
+
+    </script>
     <script>
         window.onload = function () {
             window.scrollTo(0, document.body.scrollHeight);

@@ -1,12 +1,12 @@
 from django.urls import path
-from .views import register_page, match_page, start_page, login_page, logout_page, chat_page, user_profile
+from . import views
 
 urlpatterns = [
-    path('', start_page, name='start_page'),
-    path('register/', register_page, name='registry_page'),
-    path('logout/', logout_page, name='logout_page'),
-    path('match/', match_page, name='home_page'),
-    path('login/', login_page, name='login_page'),
-    path('chat/<str:hash>/', chat_page, name='chat_page'),
-    path('profile/', user_profile, name='user_profile'),
+    path('', views.start_page, name='start_page'),
+    path('register/', views.register_page, name='registry_page'),
+    path('logout/', views.logout_page, name='logout_page'),
+    path('match/', views.match_page, name='home_page'),
+    path('login/', views.login_page, name='login_page'),
+    path('chat/<str:hash>/', views.chat_page, name='chat_page'),
+    path('profile/', views.user_profile, name='user_profile'),
 ]
