@@ -4,7 +4,7 @@
 ###### My analog of the website for Dating And Matches
 
 `
-DJANGO + CELERY + DOCKER
+DJANGO + CELERY + CHANNELS + DOCKER
 `
  
 ###### Для работы нужно:
