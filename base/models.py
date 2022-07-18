@@ -13,11 +13,11 @@ class Photo(models.Model):
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=20, verbose_name='имя', default='')
-    birthday = models.IntegerField(verbose_name='ваш возраст', null=True)
+    username = models.CharField(max_length=20, verbose_name='Name', default='')
+    birthday = models.IntegerField(verbose_name='Your age', null=True)
     email = models.EmailField(unique=True, null=True)
-    avatar = models.ImageField(upload_to='users', null=True, verbose_name='фотография')
-    gender = models.CharField(verbose_name='Ваш пол', choices=(('парень', 'парень'), ('девушка', 'девушка')),
+    avatar = models.ImageField(upload_to='users', null=True, verbose_name='Photo')
+    gender = models.CharField(verbose_name='Your gender', choices=(('male', 'male'), ('female', 'female')),
                               max_length=20, null=True)
     bio = models.TextField(null=True)
     likes = models.IntegerField(null=True)
@@ -47,7 +47,7 @@ class ChatName(models.Model):
 class Message(models.Model):
     from_id = models.ForeignKey(User, related_name='from_id', on_delete=models.CASCADE)
     to_id = models.ForeignKey(User, related_name='to_id', on_delete=models.CASCADE)
-    message = models.CharField(max_length=200)
+    message = models.TextField()
     received_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

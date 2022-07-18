@@ -30,24 +30,26 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         to_id = User.objects.get(hash=text_data_json['users'][6:-1])
-        Message.objects.create(from_id=self.scope["user"], to_id=to_id, message=message)
+        if message != '':
+            Message.objects.create(from_id=self.scope["user"], to_id=to_id, message=message)
 
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message,
-                'user_which_send': self.scope["user"]
-            }
-        )
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'message': message,
+                    'user_which_send': self.scope["user"]
+                }
+            )
 
     def chat_message(self, event):
         message = event['message']
         now = datetime.now()
-        self.send(text_data=json.dumps({
-            'type': 'chat',
-            'user': User.objects.get(username=event['user_which_send']).username,
-            'message': message,
-            'time_now': now.strftime("%I:%M") if now.strftime("%I:%M")[0] != '0' else now.strftime("%I:%M")[1:],
-            'avatar': User.objects.get(username=event['user_which_send']).avatar.url
-        }))
+        if message != '':
+            self.send(text_data=json.dumps({
+                'type': 'chat',
+                'user': User.objects.get(username=event['user_which_send']).username,
+                'message': message,
+                'time_now': now.strftime("%I:%M") if now.strftime("%I:%M")[0] != '0' else now.strftime("%I:%M")[1:],
+                'avatar': User.objects.get(username=event['user_which_send']).avatar.url
+            }))

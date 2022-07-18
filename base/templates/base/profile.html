@@ -1,16 +1,19 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <div class="title_proflie"><p> Люди с похожими вкусами</p>
+    <div class="title_proflie"><p>People with similar tastes</p>
     </div>
 
 
     {% for user in people %}
+        <a href="{% url 'chat_page' hash=user.hash %}" style="display: inline-table">
+
         <div class="people"
-             style="background-image: url({{ user.avatar.url }});background-size: 100%;background-repeat: no-repeat;">
-            <h3>{{ user.username }} </h3>
-            <a href="{% url 'chat_page' hash=user.hash %}"> Перейти к диалогу</a>
+             style="background-image: url({{ user.avatar.url }});background-size: 120%;background-repeat: no-repeat;">
+            <h3>{{ user.username }}</h3>
         </div>
+
+        </a>
     {% endfor %}
 
 {% endblock %}

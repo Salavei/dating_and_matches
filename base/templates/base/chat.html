@@ -8,16 +8,17 @@
                 <div class="sender_photo">
                     <img src="{{ message.from_id.avatar.url }}">
                 </div>
+             <br>
                 <div class="text"
-                     style="{% if message.to_id != request.user %} background-color: rgba(50, 194, 225, 0.42);{% elif  message.to_id == request.user %} background-color: rgba(255, 133, 196, 0.42);{% endif %}">
-                    <span>{{ message.message }}</span></div>
+                     style="{% if message.to_id != request.user %} background-color: rgb(179 232 243); {% elif  message.to_id == request.user %} background-color: rgb(241 151 197);{% endif %}">
+                    {{ message.message }}</div>
             </div>
         {% endfor %}
     </div>
     </div>
 
 
-    <div class="block-right" style="background-color: hsl(336deg 96% 92%);">
+    <div class="block-right">
 
         <div class="about_match_user">
             <img src="{{ to_id.avatar.url }}" alt="">
@@ -38,8 +39,8 @@
         <div style="margin-top: 172px;"></div>
         <div class="form_class">
             <form id="form">{% csrf_token %}
-                <input type="text" name="message" placeholder="Введите сообщение">
-                <button type="submit">Отправить</button>
+                <input type="text" name="message" placeholder="Enter the message" autocomplete="off">
+                <button type="submit" style="cursor: pointer">Submit</button>
             </form>
         </div>
     </footer>
@@ -64,9 +65,10 @@
                          <div class="sender_photo">
                            <img src="${data.avatar}">
                          </div>
+                        <br>
                        <div class="text"
                      style="background-color: rgba(50, 194, 225, 0.42);">
-                   <span>${data.message}</span>
+                   ${data.message}
                    </div>
                  </div>`
                     )
@@ -78,9 +80,10 @@
                          <div class="sender_photo">
                            <img src="${data.avatar}">
                          </div>
+                        <br>
                        <div class="text"
                      style="background-color: rgba(255, 133, 196, 0.42);">
-                   <span>${data.message}</span>
+                   ${data.message}
                    </div>
                  </div>`
                     )

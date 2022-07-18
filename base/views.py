@@ -53,11 +53,14 @@ def register_page(request):
         form = MyUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.likes = match_create_user(request.POST)
-            user.save()
-            send_register(email=request.POST.get('email'), password=request.POST.get('password1'))
-            login(request, user)
-            return redirect('home_page')
+            if not match_create_user(request.POST):
+                messages.error(request, 'Вы не оценили фотографии!')
+            else:
+                user.likes = match_create_user(request.POST)
+                user.save()
+                send_register(email=request.POST.get('email'), password=request.POST.get('password1'))
+                login(request, user)
+                return redirect('home_page')
         else:
             messages.error(request, 'Произошла ошибка при регистрации!')
     return render(request, 'base/registry.html', context)
@@ -65,6 +68,8 @@ def register_page(request):
 
 @login_required(login_url='login_page')
 def match_page(request):
+    if request.user.is_superuser:
+        return redirect('/admin/')
     obj = User.objects.get(id=request.user.id)
     tmp = show_match_people(user=obj)
     return render(request, 'base/profile.html', {'people': tmp})
@@ -72,11 +77,12 @@ def match_page(request):
 
 @login_required(login_url='login_page')
 def chat_page(request, hash):
+
     from_id = User.objects.get(pk=request.user.id)
     to_id = User.objects.get(hash=hash)
     if not (ChatName.objects.filter(user_first=to_id, user_second=from_id) or ChatName.objects.filter(
             user_first=from_id, user_second=to_id)):
-        ChatName.objects.create(name=from_id.email+to_id.email, user_first=from_id, user_second=to_id)
+        ChatName.objects.create(name=from_id.email + to_id.email, user_first=from_id, user_second=to_id)
     queryset1 = Message.objects.filter(from_id=from_id, to_id=to_id)
     queryset2 = Message.objects.filter(from_id=to_id, to_id=from_id)
     messages_chat = queryset1.union(queryset2).order_by('received_at')
@@ -87,14 +93,20 @@ def chat_page(request, hash):
     return render(request, 'base/chat.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_page')
 def user_profile(request):
+    if request.user.is_superuser:
+        return redirect('/admin/')
     user = request.user
     form = UserForm(instance=user)
     if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
+        if request.POST.get(str(request.user)) == str(request.user):
+            request.user.delete()
+            return redirect('login_page')
+        else:
+            form = UserForm(request.POST, request.FILES, instance=user)
+            if form.is_valid():
+                form.save()
             return redirect('/match/')
     context = {'form': form}
     return render(request, 'base/user_profile.html', context)

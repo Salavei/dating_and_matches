@@ -5,7 +5,7 @@ from captcha.fields import CaptchaField
 
 
 class MyUserCreationForm(UserCreationForm):
-    captcha = CaptchaField(required=True, error_messages={'invalid': 'Ошибка кода подтверждения'})
+    captcha = CaptchaField(required=True, error_messages={'invalid': 'Confirmation code error'})
 
     class Meta:
         model = User

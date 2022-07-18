@@ -3,20 +3,29 @@
 
 
     <div class="link_registry">
-        <a href="{% url 'login_page' %}">Войти</a>
-        <a href="{% url 'start_page' %}">Главная страница</a>
+        <a href="{% url 'login_page' %}">Login</a>
+        <a href="{% url 'start_page' %}">Home Page</a>
 
     </div>
 
     <div class="container">
         <div class="layout__box">
             <div class="layout__boxHeader">
+                {% if messages %}
+    <ul class="messages_registry">
+        {% for message in messages %}
+
+            <li>
+                {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
                 <div class="layout__boxTitle">
-                    <h3>Регистрация</h3>
+                    <h3>Register</h3>
                 </div>
             </div>
             <div class="layout__body">
-                <h2 class="auth__tagline">Ищите себе новые знакомства</h2>
+                <h2 class="auth__tagline">Seek new acquaintances</h2>
 
                 <form class="form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
@@ -34,23 +43,28 @@
                                 <img src="{{ photo.photo.url }}"/>
                                 <div class="rating-area">
                                     <input type="radio" id="contactChoice{{ photo.id }}5" name="contact{{ photo.id }}" value="5">
-                                    <label for="contactChoice{{ photo.id }}5" title="Оценка «5»"></label>
+                                    <label for="contactChoice{{ photo.id }}5" title="Evaluation «5»"></label>
                                     <input type="radio" id="contactChoice{{ photo.id }}4" name="contact{{ photo.id }}" value="4">
-                                    <label for="contactChoice{{ photo.id }}4" title="Оценка «4»"></label>
+                                    <label for="contactChoice{{ photo.id }}4" title="Evaluation «4»"></label>
                                     <input type="radio" id="contactChoice{{ photo.id }}3" name="contact{{ photo.id }}" value="3">
-                                    <label for="contactChoice{{ photo.id }}3" title="Оценка «3»"></label>
+                                    <label for="contactChoice{{ photo.id }}3" title="Evaluation «3»"></label>
                                     <input type="radio" id="contactChoice{{ photo.id }}2" name="contact{{ photo.id }}" value="2">
-                                    <label for="contactChoice{{ photo.id }}2" title="Оценка «2»"></label>
+                                    <label for="contactChoice{{ photo.id }}2" title="Evaluation «2»"></label>
                                     <input type="radio" id="contactChoice{{ photo.id }}1" name="contact{{ photo.id }}" value="1">
-                                    <label for="contactChoice{{ photo.id }}1" title="Оценка «1»"></label>
+                                    <label for="contactChoice{{ photo.id }}1" title="Evaluation «1»"></label>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
-                    <button type="submit">Зарегистрироваться</button>
+                    <button type="submit">Register</button>
                 </form>
             </div>
         </div>
     </div>
-
+<style>
+   body {
+    background-image: url('../../../static/pexels-photo-11116066.jpeg'); /* Путь к фоновому изображению */
+    background-color: #c7b39b; /* Цвет фона */
+   }
+  </style>
 {% endblock %}

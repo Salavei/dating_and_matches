@@ -6,7 +6,10 @@ def match_create_user(request):
     tmp = 0
     data_for_evaluation = [5] * count_photo
     for i in range(1, count_photo + 1):
-        tmp += (data_for_evaluation[i - 1] - int(request.get(f'contact{i}'))) ** 2
+        if request.get(f'contact{i}') != None:
+            tmp += (data_for_evaluation[i - 1] - int(request.get(f'contact{i}'))) ** 2
+        else:
+            return False
     return tmp
 
 

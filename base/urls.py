@@ -10,3 +10,4 @@ urlpatterns = [
     path('chat/<str:hash>/', views.chat_page, name='chat_page'),
     path('profile/', views.user_profile, name='user_profile'),
 ]
+
