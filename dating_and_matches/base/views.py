@@ -69,13 +69,13 @@ def register_page(request):
 def chat_page(request, hash):
     to_id = User.objects.get(hash=hash)
     _, _ = ChatName.objects.get_or_create(
-        name=request.user.email + to_id.email, user_first=request.user.id, user_second=to_id)
-    messages_chat = Message.objects.annotate(queryset1=Q(from_id=request.user.id, to_id=to_id),
-                                             queryset2=Q(from_id=request.user.id, to_id=to_id)).select_related(
-        'from_id').select_related('to_id').order_by('received_at')
+        name=request.user.email + to_id.email, user_first=request.user, user_second=to_id)
+    queryset1 = Message.objects.select_related('from_id', 'to_id').filter(from_id=request.user.id, to_id=to_id)
+    queryset2 = Message.objects.select_related('from_id', 'to_id').filter(from_id=to_id, to_id=request.user.id)
+    messages_chat = queryset1.union(queryset2).order_by('received_at')
     if request.method == 'POST':
         if request.POST.get('sms'):
-            Message.objects.create(from_id=request.user.id, to_id=to_id, message=request.POST.get('sms'))
+            Message.objects.select_related('from_id', 'to_id').create(from_id=request.user.id, to_id=to_id, message=request.POST.get('sms'))
     context = {"messages_chat": messages_chat, 'to_id': to_id}
     return render(request, 'base/chat.html', context)
 
