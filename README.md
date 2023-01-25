@@ -9,8 +9,9 @@
 <img src="https://user-images.githubusercontent.com/15955132/214613677-bc246cf5-0cb6-4d2e-88f6-712cb1110b88.png" width="50" height="50">&nbsp;
 ![icons8-docker-48](https://user-images.githubusercontent.com/15955132/214317222-a7e07749-425f-42f3-b0a6-4478d7ab68ec.png)&nbsp;
 <img src="https://user-images.githubusercontent.com/15955132/214614949-23ef31f6-f27c-4919-8ace-1c88c3c9124b.png" width="100" height="50">&nbsp;
-<img src="https://user-images.githubusercontent.com/15955132/214614298-70541229-f161-4094-be0f-7842221d0597.png" width="100" height="50">  
-```Python  Django  Celery   Docker   Channel Redis   ```  
+<img src="https://user-images.githubusercontent.com/15955132/214614298-70541229-f161-4094-be0f-7842221d0597.png" width="100" height="50">&nbsp;
+<img src="https://user-images.githubusercontent.com/15955132/214620755-e48b8d16-c800-43d5-adfb-ad68758ad396.png" width="100" height="50">  
+```Python  Django  Celery   Docker     Channel   Redis     JS      ```  
 
 
 ## About the project
