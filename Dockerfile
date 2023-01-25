@@ -1,16 +1,23 @@
-FROM python:3.10
+FROM python:3.9-alpine3.16
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /usr/src/dm_rest
-
-COPY ./requirements.txt /usr/src/requirements.txt
-RUN pip install -r /usr/src/requirements.txt
-
-COPY . /usr/src/dm_rest
-
+COPY requirements.txt /usr/src/requirements.txt
 EXPOSE 8000
 
+RUN pip install -r /usr/src/requirements.txt
 
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN adduser --disabled-password app-user
+
+COPY dating_and_matches /usr/src/dating_and_matches
+WORKDIR /usr/src/dating_and_matches
+USER app-user
+
+
+
+
+
+
+
+

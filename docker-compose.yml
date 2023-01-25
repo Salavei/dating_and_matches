@@ -1,28 +1,39 @@
 version: '3.10'
-
 services:
   db:
-    image: postgres
+    image: postgres:14.6-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
   redis:
     image: redis
     ports:
       - 6379:6379
   django:
-    container_name: dm
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    command: bash -c "python /usr/src/dm_rest/manage.py makemigrations --noinput &&
-      python /usr/src/dm_rest/manage.py migrate --noinput &&
-      python /usr/src/dm_rest/manage.py runserver 0.0.0.0:8000"
+    environment:
+      REDIS_HOST: redis
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_HOST: db
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+      EMAIL_PORT: ${EMAIL_PORT}
+    command: >
+      sh -c "python /usr/src/dating_and_matches/manage.py makemigrations --noinput&&
+      python /usr/src/dating_and_matches/manage.py migrate --noinput &&
+      python /usr/src/dating_and_matches/manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/usr/src/dm_rest
+      - ./dating_and_matches:/usr/src/dating_and_matches
     ports:
       - 8000:8000
     depends_on:
