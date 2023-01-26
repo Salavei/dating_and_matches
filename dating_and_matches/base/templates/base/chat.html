@@ -8,9 +8,9 @@
                 <div class="sender_photo">
                     <img src="{{ message.from_id.avatar.url }}">
                 </div>
-             <br>
+                <br>
                 <div class="text"
-                     style="{% if message.to_id != request.user %} background-color: rgb(179 232 243); {% elif  message.to_id == request.user %} background-color: rgb(241 151 197);{% endif %}">
+                     style="{% if message.to_id != request.user %} background-color: rgb(179 232 243); {% elif message.to_id == request.user %} background-color: rgb(241 151 197);{% endif %}">
                     {{ message.message }}</div>
             </div>
         {% endfor %}
@@ -44,7 +44,8 @@
             </form>
         </div>
     </footer>
-    {{ request.user.username|json_script:"user_name" }}
+    {{ request.user.email|json_script:"user_email"}}
+
     <script type="text/javascript">
         let url = `ws://${window.location.host}/ws/socket-server${window.location.pathname}`
 
@@ -52,12 +53,12 @@
 
         chatSocket.onmessage = function (e) {
             let data = JSON.parse(e.data)
+            console.log(data)
             if (data.type === 'chat') {
                 let messages = document.getElementById('messages')
+                const user_email = JSON.parse(document.getElementById('user_email').textContent);
 
-                const user_name = JSON.parse(document.getElementById('user_name').textContent);
-
-                if (data.user == user_name) {
+                if (data.user_email == user_email) {
                     messages.insertAdjacentHTML('beforeend',
 
                         `<div class="message_chat">

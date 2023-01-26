@@ -12,7 +12,7 @@ class Photo(models.Model):
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=20, verbose_name='Name', unique=True)
+    username = models.CharField(max_length=20, verbose_name='Name')
     birthday = models.IntegerField(verbose_name='Your age')
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to='users', null=True, verbose_name='Photo')
