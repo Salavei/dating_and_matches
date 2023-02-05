@@ -16,7 +16,7 @@
 
 ## About the project
 
-```A web dating application in which people are given people who fall within the range of their photo preferences. The key is what ratings a person puts under the photos. Chat works via web sockets```
+```A dating web-application which allows people to choose dating partners with specific preferences based on their photos. The main aspect is a rating system based on the grades under the photos. Chat works via web sockets.```
 
 
 
