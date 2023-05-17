@@ -1,44 +1,85 @@
-version: '3.10'
+version: '3'
 services:
-  db:
-    image: postgres:14.6-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+  db1:
+    image: postgres:15.3-alpine
+    restart: always
     environment:
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB: project1_db
+      POSTGRES_USER: project1_user
+      POSTGRES_PASSWORD: project1_password
+    volumes:
+      - ./data/db1:/var/lib/postgresql/data1
+
+  db2:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: project2_db
+      POSTGRES_USER: project2_user
+      POSTGRES_PASSWORD: project2_password
+    volumes:
+      - ./data/db2:/var/lib/postgresql/data2
+
   redis:
     image: redis
-    ports:
-      - 6379:6379
-  django:
+    restart: always
+    volumes:
+      - ./data/redis:/data
+
+  api_dating:
     build:
-      context: .
+      context: ./api_dating_and_matches
       dockerfile: Dockerfile
     environment:
       REDIS_HOST: redis
-      SECRET_KEY: ${SECRET_KEY}
-      DEBUG: ${DEBUG}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_HOST: db
+      SECRET_KEY: ${SECRET_KEY_API}
+      DEBUG: ${DEBUG_API}
+      POSTGRES_PASSWORD: ${DB_PASS_API}
+      POSTGRES_USER: ${DB_USER_API}
+      POSTGRES_DB: ${DB_NAME_API}
+      POSTGRES_HOST: db1
       EMAIL_HOST: ${EMAIL_HOST}
       EMAIL_HOST_USER: ${EMAIL_HOST_USER}
       EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
       EMAIL_PORT: ${EMAIL_PORT}
     command: >
-      sh -c "python /usr/src/dating_and_matches/manage.py makemigrations --noinput&&
-      python /usr/src/dating_and_matches/manage.py migrate --noinput &&
-      python /usr/src/dating_and_matches/manage.py runserver 0.0.0.0:8000"
+      sh -c "python /usr/src/api_dating_and_matches/manage.py makemigrations --noinput&&
+      python /usr/src/api_dating_and_matches/manage.py migrate --noinput &&
+      python /usr/src/api_dating_and_matches/manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./dating_and_matches:/usr/src/dating_and_matches
+      - ./api_dating_and_matches:/usr/src/api_dating_and_matches
     ports:
       - 8000:8000
     depends_on:
-      - db
+      - db1
       - redis
-volumes:
-  postgres_data:
+
+  monolith_dating:
+    build:
+      context: ./monolith_dating_and_matches
+      dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: redis
+      SECRET_KEY: ${SECRET_KEY_MONOLITH}
+      DEBUG: ${DEBUG_MONOLITH}
+      POSTGRES_PASSWORD: ${DB_PASS_MONOLITH}
+      POSTGRES_USER: ${DB_USER_MONOLITH}
+      POSTGRES_DB: ${DB_NAME_MONOLITH}
+      POSTGRES_HOST: db2
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+      EMAIL_PORT: ${EMAIL_PORT}
+    command: >
+      sh -c "python /usr/src/monolith_dating_and_matches/manage.py makemigrations --noinput&&
+      python /usr/src/monolith_dating_and_matches/manage.py migrate --noinput &&
+      python /usr/src/monolith_dating_and_matches/manage.py runserver 0.0.0.0:8040"
+    volumes:
+      - ./monolith_dating_and_matches:/usr/src/monolith_dating_and_matches
+    ports:
+      - 8040:8040
+    depends_on:
+      - db2
+      - redis
+
 
